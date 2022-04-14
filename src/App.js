@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import Home from './views/Home/Home';
 import Shop from './views/Shop/Shop';
 import Search from './views/Search/Search'
+import BestSellers from './components/BestSellers'
 
 // functional component
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
   return (
     <div className="App">
       <Navbar/>
+      <BestSellers/>
       <Routes>
         <Route children path='/' element={<Home />} />
         <Route children path='/shop' element={<Shop />} />

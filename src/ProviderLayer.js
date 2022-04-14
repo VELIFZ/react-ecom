@@ -1,8 +1,12 @@
 import App from "./App"
+import DataProvider from "./context/DataProvider"
 
 const ProviderLayer = () => {
     return (
-        <App />
+        <DataProvider>
+             <App />  
+        </DataProvider>
+       
     )
 }
 

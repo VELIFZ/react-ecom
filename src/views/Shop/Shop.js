@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { DataContext } from '../../context/DataProvider';
+
 
 const Shop = () => {
 
@@ -19,6 +21,30 @@ const Shop = () => {
     // state varibale - bunlarin yeri onemli load'dan once olmali
     const [books, setBooks] = useState(() => loadSellBookData());
 
+    // access cart from Context.Provider 
+    const {cart, setCart} = useContext(DataContext)
+
+    // add to cart function
+    const addCart = (book) => {
+        // add the book to our cart object - CANNOT MUTATE STATE DIRECTLY
+        // make a copy
+        let mutableCart = { ...cart }
+        // modify the copy
+        // increase size by one
+        mutableCart.size++;
+        // increase total by book.price
+        mutableCart.total += book.price;
+        // if the book is in the cart already, increase quantity by one, otherwise add the book to the cart
+        mutableCart.books[book.id] ?
+        mutableCart.books[book.id].quantity++ :
+        mutableCart.books[book.id] = { 'data': book, 'quantity': 1 };
+        // testing console log
+        console.log(mutableCart);
+    
+        // set state
+        setCart(mutableCart);
+    }
+
     return (
         <div className="container">
             <div className='row justify-content-center'>
@@ -32,7 +58,7 @@ const Shop = () => {
                                     <h5 className="title">{book.title}</h5>
                                     <h6>by {book.author}</h6>
                                     <p className="text-danger">${book.price.toFixed(2)}</p>
-                                    <a href="#" className="btn btn-primary">Go somewhere</a>
+                                    <button type="button" className="btn btn-primary" onClick={() => addCart(book)} > Add to Cart </button>
                                 </div>
                             </div>
                 })  :
